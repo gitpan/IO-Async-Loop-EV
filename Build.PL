@@ -6,7 +6,7 @@ use Module::Build;
 my $build = Module::Build->new(
    module_name => 'IO::Async::Loop::EV',
    requires => {
-      'IO::Async::Loop' => '0.33',
+      'IO::Async::Loop' => '0.49',
       'EV' => 0,
    },
    build_requires => {

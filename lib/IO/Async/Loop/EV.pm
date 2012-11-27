@@ -8,11 +8,13 @@ package IO::Async::Loop::EV;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
-use constant API_VERSION => '0.33';
+our $VERSION = '0.02';
+use constant API_VERSION => '0.49';
 
 use base qw( IO::Async::Loop );
-IO::Async::Loop->VERSION( '0.33' );
+IO::Async::Loop->VERSION( '0.49' );
+
+use constant _CAN_SUBSECOND_ACCURATELY => 0;
 
 use Carp;
 
@@ -98,7 +100,7 @@ sub unwatch_io
    }
 }
 
-sub enqueue_timer
+sub watch_time
 {
    my $self = shift;
    my %params = @_;
@@ -106,32 +108,22 @@ sub enqueue_timer
    my $code = $params{code} or croak "Expected 'code' as CODE ref";
 
    my $w;
-   if( defined $params{delay} ) {
-      $w = EV::timer $params{delay}, 0, $code;
+   if( defined $params{after} ) {
+      $w = EV::timer $params{after}, 0, $code;
    }
    else {
-      $w = EV::periodic $params{time}, 0, 0, $code;
+      $w = EV::periodic $params{at}, 0, 0, $code;
    }
 
-   $self->{watch_time}{$w} = [ $w, $code ];
-   return $w;
+   return $self->{watch_time}{$w} = $w;
 }
 
-sub cancel_timer
+sub unwatch_time
 {
    my $self = shift;
    my ( $id ) = @_;
 
    delete $self->{watch_time}{$id};
-}
-
-sub requeue_timer
-{
-   my $self = shift;
-   my ( $id, %params ) = @_;
-
-   my $code = ( delete $self->{watch_time}{$id} )->[1];
-   return $self->enqueue_timer( %params, code => $code );
 }
 
 sub watch_signal

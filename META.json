@@ -4,7 +4,7 @@
       "Paul Evans <leonerd@leonerd.org.uk>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.120630",
+   "generated_by" : "Module::Build version 0.4001, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -23,14 +23,14 @@
       "runtime" : {
          "requires" : {
             "EV" : "0",
-            "IO::Async::Loop" : "0.33"
+            "IO::Async::Loop" : "0.49"
          }
       }
    },
    "provides" : {
       "IO::Async::Loop::EV" : {
          "file" : "lib/IO/Async/Loop/EV.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
@@ -39,5 +39,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }
